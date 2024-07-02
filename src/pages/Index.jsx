@@ -7,9 +7,11 @@ const Index = () => {
   const [dontSwitchTally, setDontSwitchTally] = useState(0);
   const [switchTally, setSwitchTally] = useState(0);
 
-  const startDontSwitchSimulation = () => {
+  const startSimulations = () => {
     let dontSwitchWins = 0;
-    const results = [];
+    let switchWins = 0;
+    const dontSwitchResults = [];
+    const switchResults = [];
 
     for (let i = 0; i < 100; i++) {
       const options = ["A", "B", "C"];
@@ -19,24 +21,10 @@ const Index = () => {
       // Don't Switch Strategy
       if (initialChoice === winningOption) {
         dontSwitchWins++;
-        results.push(true);
+        dontSwitchResults.push(true);
       } else {
-        results.push(false);
+        dontSwitchResults.push(false);
       }
-    }
-
-    setDontSwitchResults(results);
-    setDontSwitchTally(dontSwitchWins);
-  };
-
-  const startSwitchSimulation = () => {
-    let switchWins = 0;
-    const results = [];
-
-    for (let i = 0; i < 100; i++) {
-      const options = ["A", "B", "C"];
-      const winningOption = options[Math.floor(Math.random() * 3)];
-      const initialChoice = options[Math.floor(Math.random() * 3)];
 
       // Remove one incorrect option
       const remainingOptions = options.filter(
@@ -51,25 +39,27 @@ const Index = () => {
       );
       if (switchChoice === winningOption) {
         switchWins++;
-        results.push(true);
+        switchResults.push(true);
       } else {
-        results.push(false);
+        switchResults.push(false);
       }
     }
 
-    setSwitchResults(results);
+    setDontSwitchResults(dontSwitchResults);
+    setDontSwitchTally(dontSwitchWins);
+    setSwitchResults(switchResults);
     setSwitchTally(switchWins);
   };
 
   return (
     <div className="text-center">
       <h1 className="text-3xl mb-4">Monty Hall Problem Visual Tester</h1>
+      <Button onClick={startSimulations} className="mb-4">
+        Start Simulations
+      </Button>
       <div className="flex justify-around">
         <div>
           <h2 className="text-xl mb-2">Don't Switch Strategy</h2>
-          <Button onClick={startDontSwitchSimulation} className="mb-4">
-            Start Don't Switch Simulation
-          </Button>
           <p>Wins: {dontSwitchTally}</p>
           <div className="grid grid-cols-5 gap-1">
             {dontSwitchResults.map((result, index) => (
@@ -84,9 +74,6 @@ const Index = () => {
         </div>
         <div>
           <h2 className="text-xl mb-2">Switch Strategy</h2>
-          <Button onClick={startSwitchSimulation} className="mb-4">
-            Start Switch Simulation
-          </Button>
           <p>Wins: {switchTally}</p>
           <div className="grid grid-cols-5 gap-1">
             {switchResults.map((result, index) => (
