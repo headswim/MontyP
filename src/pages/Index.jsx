@@ -14,30 +14,33 @@ const Index = () => {
     const switchResults = [];
 
     for (let i = 0; i < 100; i++) {
-      const options = ["A", "B", "C"];
-      const winningOption = options[Math.floor(Math.random() * 3)];
-      const initialChoice = options[Math.floor(Math.random() * 3)];
-
       // Don't Switch Strategy
-      if (initialChoice === winningOption) {
+      const dontSwitchOptions = ["A", "B", "C"];
+      const dontSwitchWinningOption = dontSwitchOptions[Math.floor(Math.random() * 3)];
+      const dontSwitchInitialChoice = dontSwitchOptions[Math.floor(Math.random() * 3)];
+
+      if (dontSwitchInitialChoice === dontSwitchWinningOption) {
         dontSwitchWins++;
         dontSwitchResults.push(true);
       } else {
         dontSwitchResults.push(false);
       }
 
-      // Remove one incorrect option
-      const remainingOptions = options.filter(
-        (option) => option !== initialChoice && option !== winningOption
+      // Switch Strategy
+      const switchOptions = ["A", "B", "C"];
+      const switchWinningOption = switchOptions[Math.floor(Math.random() * 3)];
+      const switchInitialChoice = switchOptions[Math.floor(Math.random() * 3)];
+
+      const remainingOptions = switchOptions.filter(
+        (option) => option !== switchInitialChoice && option !== switchWinningOption
       );
       const removedOption =
         remainingOptions[Math.floor(Math.random() * remainingOptions.length)];
 
-      // Switch Strategy
-      const switchChoice = options.find(
-        (option) => option !== initialChoice && option !== removedOption
+      const switchChoice = switchOptions.find(
+        (option) => option !== switchInitialChoice && option !== removedOption
       );
-      if (switchChoice === winningOption) {
+      if (switchChoice === switchWinningOption) {
         switchWins++;
         switchResults.push(true);
       } else {
